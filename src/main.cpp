@@ -19,7 +19,6 @@ void setup() {
     Infraroed_sensor.IR_init();
     lux_sensor.lyssensor_init();
     led.setup();
-    
     Serial.println("LET'SARGO");
 }
 
