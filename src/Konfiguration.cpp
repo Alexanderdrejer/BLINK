@@ -2,7 +2,7 @@
 
 Konfiguration::Konfiguration(int taerskel)
     : lys_taerskel_val(taerskel),
-      hold_time_ms(VENTETID_MS),
+      timer_ms(time_until_light_needs_to_turn_off),
       max_lux_scale(500) {}
 
 int Konfiguration::lys_taerskel() const {
@@ -10,7 +10,7 @@ int Konfiguration::lys_taerskel() const {
 }
 
 unsigned long Konfiguration::get_hold_time() const {
-    return hold_time_ms;
+    return timer_ms;
 }
 
 int Konfiguration::get_max_lux_scale() const {

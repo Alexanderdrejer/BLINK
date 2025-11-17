@@ -1,7 +1,7 @@
 #include "lightcontrol.h"
 
 light_control::light_control(Konfiguration& c, IR_sensor& p, Lyssensor& l, LED& d)
-    : config(c), pir(p), lys(l), led(d), sidste_tilstedevaerelse(0) {}
+    : config(c), pir(p), lys(l), led(d), last_presence(0) {}
 
 bool light_control::evaluate_presence() {
     return pir.getPresence();
@@ -24,10 +24,10 @@ int light_control::determine_PWM_value() {
 void light_control::run_auto_logic(unsigned long currentMillis) {
 
     if (evaluate_presence()) { // Hvis der er tilstedeværelse, opdateres den tiden hvori der sidst var tilstedeværelse.
-        sidste_tilstedevaerelse = currentMillis; // Skal bruges til at fortlæle hvpr længe lyset skal være tændt.
+        last_presence = currentMillis; // Skal bruges til at fortlæle hvpr længe lyset skal være tændt.
     }
 
-    bool hold_time_active = (currentMillis - sidste_tilstedevaerelse < config.get_hold_time());
+    bool hold_time_active = (currentMillis - last_presence < config.get_hold_time());
     int final_pwm = 0;
 
     if (hold_time_active && is_light_needed()) {
@@ -39,10 +39,10 @@ void light_control::run_auto_logic(unsigned long currentMillis) {
 
 void light_control::run_manual_override(OverrideState state, unsigned long currentMillis) {
     if (evaluate_presence()) {
-        sidste_tilstedevaerelse = currentMillis;
+        last_presence = currentMillis;
     }
     
-    bool hold_time_active = (currentMillis - sidste_tilstedevaerelse < config.get_hold_time());
+    bool hold_time_active = (currentMillis - last_presence < config.get_hold_time());
     int final_pwm = 0;
 
     if (!hold_time_active) {

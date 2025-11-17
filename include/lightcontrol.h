@@ -17,8 +17,7 @@ private:
     IR_sensor& pir;
     Lyssensor& lys;
     LED& led;
-    unsigned long sidste_tilstedevaerelse;
-    
+    unsigned long last_presence;
     bool evaluate_presence();
     
 public:

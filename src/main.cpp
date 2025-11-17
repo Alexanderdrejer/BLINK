@@ -3,11 +3,11 @@
 #include "Boundary.h"
 
 Konfiguration system_config(30);
-IR_sensor Infraroed_sensor(PIR_PIN);
+IR_sensor infrared_sensor(PIR_PIN);
 Lyssensor lux_sensor;
 LED led(LED_PIN);
 
-light_control system_control(system_config, Infraroed_sensor, lux_sensor, led);
+light_control system_control(system_config, infrared_sensor, lux_sensor, led);
 
 OverrideState manuel_tilstand = AUTO;
 
@@ -16,7 +16,7 @@ const unsigned long PAUSEN_MS = 5000;
 
 void setup() {
     Serial.begin(115200);
-    Infraroed_sensor.IR_init();
+    infrared_sensor.IR_init();
     lux_sensor.lyssensor_init();
     led.setup();
     Serial.println("LET'SARGO");
