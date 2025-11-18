@@ -24,13 +24,13 @@ int light_control::determine_PWM_value() {
 void light_control::run_auto_logic(unsigned long currentMillis) {
 
     if (evaluate_presence()) { // Hvis der er tilstedeværelse, opdateres den tiden hvori der sidst var tilstedeværelse.
-        last_presence = currentMillis; // Skal bruges til at fortlæle hvpr længe lyset skal være tændt.
-    }
+        last_presence = currentMillis; // Skal bruges til at fortælle hvpr længe lyset skal være tændt.
+    } // Skal også sendes til LOG, da det er tidpsunktet for hvornår der sidst var tilstedeværelsn i rumemt
 
-    bool hold_time_active = (currentMillis - last_presence < config.get_hold_time());
+    bool is_hold_time_active = (currentMillis - last_presence < config.get_hold_time()); // Tiden hvormed systemet får lov til at holde lyset tændt selvom der ikke er en i rummet.
     int final_pwm = 0;
 
-    if (hold_time_active && is_light_needed()) {
+    if (is_hold_time_active && is_light_needed()) {
         final_pwm = determine_PWM_value();
     }
     

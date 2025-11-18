@@ -21,7 +21,6 @@ bool Lyssensor::lyssensor_init() {
 
 int Lyssensor::getluxlevel() {
     lux_level = Lysmaaler.readLightLevel();
-    if (lux_level < 0) return 0;
     return lux_level;
 }
 
