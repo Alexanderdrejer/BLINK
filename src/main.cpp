@@ -37,21 +37,5 @@ void loop() {
         Serial.print("Lux: ");
         Serial.print(lux_sensor.getluxlevel());
         Serial.print("");
-// Henter værdier for debugging
-        int lux_value = lux_sensor.getluxlevel(); 
-        // Vi kalder calculate_pwm direkte fra light_control
-        int calculated_pwm = system_control.determine_PWM_value(); 
-        
-        Serial.print("LUX: ");
-        Serial.print(lux_value); // (A) Den målte Lux
-        
-        Serial.print(" | PWM: "); 
-        Serial.print(calculated_pwm); // (B) Den beregnede lysstyrke
-        
-        Serial.print(" | NEEDED: "); 
-        Serial.print(system_control.is_light_needed() ? "YES" : "NO");
-        
-        Serial.print(" | PRESENCE: ");
-        Serial.println(infrared_sensor.getPresence() ? "YES" : "NO");
     }
 }
