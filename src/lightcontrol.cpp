@@ -13,12 +13,20 @@ bool light_control::is_light_needed() const {
 
 int light_control::determine_PWM_value() {
     int lux = lys.getluxlevel();
-    int max_scale = config.get_max_lux_scale();
+    int taerskel = config.lys_taerskel();
 
-    int scaled_value = map(lux, 0, max_scale, 0, 255);
-    scaled_value = constrain(scaled_value, 0, 255);
+    if (lux >= taerskel) {
+        return 0;
+    }
     
-    return 255 - scaled_value;
+    long pwm = map(lux, 0, taerskel, 255, 0);
+    // Map funktionen skalere et tal til et andet. 
+    // Vi har en sensor der kan give et tal mellem 0 og meget højt lux.
+    // Vi har også et signal der skal være mellem 0 og 255. 
+    // Map regner forholdet ud, så 1 lux svarer til x pwm. 
+    // Eksempelvis: map(50, 0, 100, 0, 255)
+    
+    return constrain((int)pwm, 0, 255);
 }
 
 void light_control::run_auto_logic(unsigned long currentMillis) {
@@ -42,10 +50,10 @@ void light_control::run_manual_override(OverrideState state, unsigned long curre
         last_presence = currentMillis;
     }
     
-    bool hold_time_active = (currentMillis - last_presence < config.get_hold_time());
+    bool is_hold_time_active = (currentMillis - last_presence < config.get_hold_time());
     int final_pwm = 0;
 
-    if (!hold_time_active) {
+    if (!is_hold_time_active) {
         led.setPWM_value(0);
         return;
     }
