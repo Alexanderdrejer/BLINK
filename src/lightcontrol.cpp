@@ -83,9 +83,11 @@ void light_control::run_manual_override(OverrideState state, unsigned long curre
 
     if (state == TAEND) {
         final_pwm = 255; 
+        den_nye_LED.setIntensity(30);
     } else if (state == SLUK) {
         final_pwm = 0;
-    }
+        den_nye_LED.setIntensity(0);
+    } 
     
     led.setPWM_value(final_pwm);
 }
