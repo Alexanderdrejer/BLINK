@@ -3,14 +3,15 @@
 
 #include <Arduino.h>
 
-const unsigned long time_until_light_needs_to_turn_off = 15000; // Hvor længe lyset skal forblive tændt eller slukket.
-// Ovenstående skal også være konfiguérbart fra GUI.
+const unsigned long time_until_light_needs_to_turn_off = 15000;
 class Konfiguration {
-private:
+protected:
     int lys_taerskel_val;
+private:
     unsigned long timer_ms;
     int max_lux_scale;
 public:
+    Konfiguration();
     Konfiguration(int taerskel);
     int lys_taerskel() const;
     unsigned long get_hold_time() const;

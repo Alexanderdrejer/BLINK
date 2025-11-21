@@ -17,8 +17,7 @@ Lyssensor::Lyssensor()
     : lux_level(0) {}
 
 bool Lyssensor::lyssensor_init() {
-    //Indsæt SDA_PIN, SCL_PIN hvis vi skifter tilbage til ESP32.
-    Wire.begin(); // Initialiserer I2C kommunikation på valgte pins.
+    Wire.begin(); 
     return Lysmaaler.begin();
 }
 
@@ -33,14 +32,6 @@ void LED::setup() {
     pinMode(pin, OUTPUT); // Sætter LED_PIN som output
     TCCR3A = (1 << COM3C1) | (1 << WGM30); 
     TCCR3B = (1 << WGM32) | (1 << CS31);
-
-    // pinMode(pin, OUTPUT);
-    // ledcSetup(LED_CHANNEL, FREQUENCY, OPLOESNING); // Vælger timer, frekvens og opløsning.
-    // ledcAttachPin(pin, LED_CHANNEL); // Forbinder pin til valgt kanal.
-
-    // pinMode(pin, OUTPUT);
-    // ledcSetup(LED_CHANNEL, FREQUENCY, OPLOESNING); // Vælger timer, frekvens og opløsning.
-    // ledcAttachPin(pin, LED_CHANNEL); // Forbinder pin til valgt kanal.
 }
 
 void LED::setPWM_value(int pwm_value) {

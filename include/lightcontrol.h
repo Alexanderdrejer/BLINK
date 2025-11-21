@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "Konfiguration.h"
 #include "Boundary.h"
+#include "NyLED.h"
 
 enum OverrideState {
     AUTO,
@@ -17,13 +18,16 @@ private:
     IR_sensor& pir;
     Lyssensor& lys;
     LED& led;
+    LEDDriver& den_nye_LED;
     unsigned long last_presence;
     bool evaluate_presence();
     
 public:
-    light_control(Konfiguration& c, IR_sensor& p, Lyssensor& l, LED& d);
+    light_control(Konfiguration& c, IR_sensor& p, Lyssensor& l, LED& d, LEDDriver& l2);
+    void initSystem();
     bool is_light_needed() const;
     int determine_PWM_value();
+    void runSystem(OverrideState status_on_enum);
     void run_auto_logic(unsigned long currentMillis);
     void run_manual_override(OverrideState state, unsigned long currentMillis);
 };

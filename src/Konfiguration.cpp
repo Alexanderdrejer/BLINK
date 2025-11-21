@@ -1,5 +1,12 @@
 #include "Konfiguration.h"
 
+Konfiguration::Konfiguration()
+{
+    lys_taerskel_val = 0;
+    timer_ms = 0;
+    max_lux_scale = 0;
+}
+
 Konfiguration::Konfiguration(int taerskel)
     : lys_taerskel_val(taerskel),
       timer_ms(time_until_light_needs_to_turn_off),
