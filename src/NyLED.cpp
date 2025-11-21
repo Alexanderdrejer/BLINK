@@ -18,21 +18,20 @@ LEDDriver::LEDDriver(int taerskel_value)
 {   
 }
 
-
 void LEDDriver::initLED()
 {
     ring1_.begin();
     setIntensity(0);
 }
 
-
 void LEDDriver::setIntensity(int intensity)
 {
     if (intensity < 0) intensity = 0;
-    if (intensity > 30) intensity = 30; // Frygter den sluger for meget strøm ellers.
+    if (intensity > 100) intensity = 100; // Frygter den sluger for meget strøm ellers.
 
     currentIntensity_ = intensity;
-    uint8_t level = (currentIntensity_ * 255) / 100;
+
+    uint8_t level = (currentIntensity_ * 200) / 100;
     uint32_t color1 = ring1_.Color(level, level, level);
     for (uint16_t i = 0; i < ledsRing1_; i++)
         ring1_.setPixelColor(i, color1);
@@ -45,13 +44,13 @@ bool LEDDriver::isRunning()
     return currentIntensity_;
 }
 
-int LEDDriver::calculateIntensity(int lux)
+int LEDDriver::calculateIntensity(int lux) //Omsætter lux til en procentdel.
 {
     if (lux >= lys_taerskel_val) {
         return 0; // Hvis lyset er over tærskel, slukker det.
     }
-    int intensity = map(lux, 0, lys_taerskel_val, 30, 0);
-    return constrain(intensity, 0, 30);
+    int intensity = map(lux, 0, lys_taerskel_val, 100, 0);
+    return constrain(intensity, 0, 100);
 }
 
 void LEDDriver::runSimplePartySequence()

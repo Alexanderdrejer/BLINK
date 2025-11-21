@@ -9,7 +9,8 @@
 enum OverrideState {
     AUTO,
     SLUK,
-    TAEND
+    TAEND,
+    PARTY
 };
 
 class light_control {
@@ -30,6 +31,7 @@ public:
     void runSystem(OverrideState status_on_enum);
     void run_auto_logic(unsigned long currentMillis);
     void run_manual_override(OverrideState state, unsigned long currentMillis);
+    void run_party_mode(OverrideState status_on_enum);
 };
 
 #endif

@@ -38,7 +38,9 @@ void light_control::runSystem(OverrideState status_on_enum)
 {
     unsigned long currentMillis = millis();
     if (status_on_enum == AUTO) {
-        this->run_auto_logic(currentMillis);
+        this->run_auto_logic(currentMillis); //this pointere da jeg kalder på en funktion i klassen selv.
+    } else if (status_on_enum == PARTY) {
+        this->run_party_mode(status_on_enum);
     } else {
         this->run_manual_override(status_on_enum, currentMillis);
     }
@@ -56,10 +58,14 @@ void light_control::run_auto_logic(unsigned long currentMillis) {
 
     if (is_hold_time_active && is_light_needed()) {
         final_pwm = determine_PWM_value();
-        den_nye_LED.setIntensity(den_nye_LED.calculateIntensity(current_lux));
+        int desired_intensity_on_newLED = den_nye_LED.calculateIntensity(current_lux);
+        den_nye_LED.setIntensity(desired_intensity_on_newLED);
     }
+    else {
+    den_nye_LED.setIntensity(0);
+    }
+        led.setPWM_value(final_pwm);
 
-    led.setPWM_value(final_pwm);
 }
 
 void light_control::run_manual_override(OverrideState state, unsigned long currentMillis) {
@@ -82,4 +88,9 @@ void light_control::run_manual_override(OverrideState state, unsigned long curre
     }
     
     led.setPWM_value(final_pwm);
+}
+
+void light_control::run_party_mode(OverrideState status_on_enum)
+{
+    den_nye_LED.runSimplePartySequence();
 }

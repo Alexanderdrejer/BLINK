@@ -6,7 +6,7 @@
 #include <Wire.h>
 
 const int LED_PIN = 3;
-const int PIR_PIN = A0;
+const int PIR_PIN = A1;
 
 const int SCL_PIN = 21; 
 const int SDA_PIN = 20; 
