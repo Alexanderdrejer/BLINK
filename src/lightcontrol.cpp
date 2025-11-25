@@ -9,7 +9,7 @@ void light_control::initSystem()
     pir.IR_init();
     lys.lyssensor_init();
     led.setup();
-    Serial.println("LET'SARGO");
+    Serial.println("SYSTEM: INITIATED");
     den_nye_LED.initLED();
 }
 
@@ -34,11 +34,22 @@ int light_control::determine_PWM_value() {
     return constrain((int)pwm, 0, 255);
 }
 
+int light_control::calculateIntensity(int lux) 
+{
+    int taerskel_value = config.lys_taerskel();
+
+    if (lux >= taerskel_value) {
+        return 0; 
+    }
+    int intensity = map(lux, 0, taerskel_value, 100, 0);
+    return constrain(intensity, 0, 100);
+}
+
 void light_control::runSystem(OverrideState status_on_enum)
 {
     unsigned long currentMillis = millis();
     if (status_on_enum == AUTO) {
-        this->run_auto_logic(currentMillis); //this pointere da jeg kalder på en funktion i klassen selv.
+        this->run_auto_logic(currentMillis);
     } else if (status_on_enum == PARTY) {
         this->run_party_mode(status_on_enum);
     } else {
@@ -58,7 +69,7 @@ void light_control::run_auto_logic(unsigned long currentMillis) {
 
     if (is_hold_time_active && is_light_needed()) {
         final_pwm = determine_PWM_value();
-        int desired_intensity_on_newLED = den_nye_LED.calculateIntensity(current_lux);
+        int desired_intensity_on_newLED = this->calculateIntensity(current_lux);
         den_nye_LED.setIntensity(desired_intensity_on_newLED);
     }
     else {

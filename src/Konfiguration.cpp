@@ -4,13 +4,11 @@ Konfiguration::Konfiguration()
 {
     lys_taerskel_val = 0;
     timer_ms = 0;
-    max_lux_scale = 0;
 }
 
 Konfiguration::Konfiguration(int taerskel)
     : lys_taerskel_val(taerskel),
-      timer_ms(time_until_light_needs_to_turn_off),
-      max_lux_scale(100) {}
+      timer_ms(time_until_light_needs_to_turn_off) {}
 
 int Konfiguration::lys_taerskel() const {
     return lys_taerskel_val;
@@ -18,8 +16,4 @@ int Konfiguration::lys_taerskel() const {
 
 unsigned long Konfiguration::get_hold_time() const {
     return timer_ms;
-}
-
-int Konfiguration::get_max_lux_scale() const {
-    return max_lux_scale;
 }
